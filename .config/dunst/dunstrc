@@ -1,0 +1,24 @@
+[global]
+frame_color = "#babbf1"
+separator_color= frame
+highlight = "#babbf1"
+width = (300, 400)  # min and max width of notifications
+max_icon_size = 96  # maximum icon size in pixels
+padding = 20
+horizontal_padding = 20
+corner_radius = 12
+frame_width = 3
+
+
+[urgency_low]
+background = "#414559"
+foreground = "#414559"
+
+[urgency_normal]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+
+[urgency_critical]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+frame_color = "#fab387"
