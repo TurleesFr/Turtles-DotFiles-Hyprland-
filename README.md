@@ -1,11 +1,11 @@
 # Turtles-DotFiles-Hyprland-
 
 # STILL W.I.P
-# EWW
-Need to make EWW menu
-Profile Pic
-Music player
-Ram, Cpu and Gpu usage (Piechart)
+#EWW
+Need to make EWW menu <br/>
+Profile Pic <br/>
+Music player <br/>
+Ram, Cpu and Gpu usage (Piechart) <br/>
 
 # REST
 complete GTK Theme installation script
