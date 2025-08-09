@@ -8,7 +8,7 @@ Music player <br/>
 Ram, Cpu and Gpu usage (Piechart) <br/>
 
 # REST
-complete GTK Theme installation script
-Need to make GTK Theme work for Hyprland share picker and xdg
-Need to add QT Themes
-MAYBE replace Waybar with EWW
+complete GTK Theme installation script <br/>
+Need to make GTK Theme work for Hyprland share picker and xdg <br/>
+Need to add QT Themes <br/> 
+MAYBE replace Waybar with EWW <br/>
