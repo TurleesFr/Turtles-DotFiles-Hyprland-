@@ -1,5 +1,10 @@
 # Turtles-DotFiles-Hyprland-
 
+RECENT CHANGES <br/>
+deleted dunst and replacing with swaync<br/>
+figuring out how to use it and how to conf it
+
+
 # STILL W.I.P
 #EWW
 Need to make EWW menu <br/>
