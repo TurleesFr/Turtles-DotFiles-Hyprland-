@@ -1,5 +1,8 @@
 # Turtles-DotFiles-Hyprland-
 
+DAILY UPDATE::::<br/>
+Learning Basic yuck today, figured out how to make basic widgets!!!!!!<br/>
+<br/>
 RECENT CHANGES <br/>
 deleted dunst and replacing with swaync<br/>
 figuring out how to use it and how to conf it
