@@ -1,0 +1,99 @@
+;;made entirely by https://github.com/TurleesFr
+;;updated by https://github.com/TurleesFr
+
+
+(defpoll cpu_usage :interval "3s" "scripts/cpu.sh")
+(defpoll ram_usage :interval "3s" "scripts/ram.sh")
+(defpoll disk_usage :interval "60s" "scripts/disk.sh")
+(defpoll network_usage :interval "1s" "scripts/network.sh")
+(defpoll sys_uptime :interval "60s" "scripts/uptime.sh")
+(defpoll username :interval "60s" "whoami")
+
+
+(defwindow main
+  :monitor 0
+  :geometry (geometry :x "0"
+                      :y "0%"
+                      :width "18%"
+                      :height "30%"
+                      :anchor "top right")
+  :stacking "fg"
+  :exclusive false
+  :focusable "ondemand"
+  :namespace "EWW-Widget"
+(monitor)
+)
+
+(defwidget monitor []
+  (box :class "everything"
+  :orientation "vertical"
+  (box :class "profile"
+  :orientation "horizontal"
+  :clip true
+  :spacing 10
+(image :path "/home/erik/HyprProfile/Profile.png" 
+  :image-width 150
+  :image-height 150
+  :halign "start"
+  :valign "center"
+  :class "profile-pic")
+  (box :orientation "vertical"
+  (label :text "--${username}" :halign "center" :valign "center"
+  :class "user")
+  (label :text "Uptime: ${sys_uptime}" :halign "start" :valign "center"
+  :class "uptime"
+  )))
+
+  (box :class "monitor"
+  :spacing "10"
+  :orientation "horizontal"
+  (overlay :align "center"
+    (circular-progress
+      :value 100
+      :size 50
+      :thickness 15
+      :class "donut-underlay")
+    (circular-progress
+      :value cpu_usage
+      :size 50
+      :thickness 15
+      :class "cpu_bar"
+    (box :orientation "vertical"
+    :spacing -130
+    (label :text "Cpu")
+    (label :text "${cpu_usage}%"))))
+  
+   (overlay :align "center"
+    (circular-progress
+      :value 100
+      :size 50
+      :thickness 15
+      :class "donut-underlay")
+    (circular-progress
+      :value ram_usage
+      :size 50
+      :thickness 15
+      :class "ram_bar"
+    (box :orientation "vertical"
+    :spacing -130
+    (label :text "Ram")
+    (label :text "${ram_usage}%"))))
+     (overlay :align "center"
+    (circular-progress
+      :value 100
+      :size 50
+      :thickness 15
+      :class "donut-underlay")
+    (circular-progress
+      :value disk_usage
+      :size 50
+      :thickness 15
+      :class "disk_bar"
+    (box :orientation "vertical"
+    :spacing -130
+    (label :text "Storage")
+    (label :text "${disk_usage}%"))))
+
+  ))
+
+)
