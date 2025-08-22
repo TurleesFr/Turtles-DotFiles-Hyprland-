@@ -1,7 +1,7 @@
 # Turtles-DotFiles-Hyprland-
 
 DAILY UPDATE::::<br/>
-Learning Basic yuck today, figured out how to make basic widgets!!!!!!<br/>
+Making my first EWW menu! Already made some widgets tonight<br/>
 <br/>
 RECENT CHANGES <br/>
 deleted dunst and replacing with swaync<br/>
