@@ -1,8 +1,8 @@
 ## this is for the gtk themes
 
 
-export GTK_THEME=catppuccin-mocha-lavender-standard+default:dark
-export GTK_ICON_THEME=candy-icons
+export GTK_THEME=Gruvbox-Dark-Medium
+export GTK_ICON_THEME=Gruvbox-Dark
 export XDG_CURRENT_DESKTOP=Hyprland
 export GDK_BACKEND=wayland,x11
 
