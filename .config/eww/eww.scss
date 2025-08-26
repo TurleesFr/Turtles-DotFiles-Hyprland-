@@ -1,64 +1,124 @@
-/* Gruvbox Material Palette */
-$bg-dark:    #202328; 
-$bg:         #2a2e36; 
-$bg-light:   #3b3f4a;
-$fg:         #c7c7c7; 
-$fg-alt:     #a9a1a1; 
+/* Gruvbox Material Medium Palette */
+$bg-dark:    #2d3035; // Slightly lighter than your original dark
+$bg:         #32353f; // Medium background
+$bg-light:   #3e4251; // Soft light background
+$fg:         #ebdbb2; // Main foreground
+$fg-alt:     #d5c4a1; // Alternative foreground
 
-$red:        #ea6962;
-$green:      #a9b665;
-$yellow:     #d8a657;
-$blue:       #7daea3;
-$purple:     #d3869b;
-$aqua:       #89b482;
-$orange:     #e78a4e;
-$gray:       #928374;
+$red:        #ea6962; // Soft red
+$hover-red:     #82332f;
+$green:      #a9b665; // Soft green
+$yellow:     #d8a657; // Soft yellow
+$blue:       #7daea3; // Soft blue
+$purple:     #d3869b; // Soft purple
+$aqua:       #89b482; // Soft aqua
+$orange:     #e78a4e; // Soft orange
+$gray:       #928374; // Soft gray
 
-$accent:     $blue;   
-$outline:    $gray;   
+$accent:     $blue;   // Accent color
+$outline:    $gray;   // Outline color
 
-.donut-underlay {
-    color: $bg-light;
+
+ 
+.DonutContainer{
+    padding: 10px;
 }
-.cpu_bar {
-    color: $red;
+.cpu {
+    padding: 5px;
+    font-weight: bold;
+    color: #ea6962;
+    border-radius: 20px;
+    box-shadow: 1 2px 3px 2px rgba(15,15,6,0.2);
 }
+.cpu1 {
+    margin-left: -11px;
+}
+.ram1 {
+    margin-left: -12px;
+}
+.disk1{
+    margin-left: -7px;
+}
+.ram {
+    padding: 5px;
+    font-weight: bold;
+    color: #a9b665;
+    border-radius: 20px;
+    box-shadow: 1 2px 3px 2px rgba(15,15,6,0.2);
+}
+.disk {
+    padding: 5px;
+    font-weight: bold;
+    color: #d8a657;
+    border-radius: 20px;
+    box-shadow: 1 2px 3px 2px rgba(15,15,6,0.2);
+}
+.donut {
+    background-color: #373a47;
+}
+
 .ram_bar {
-    color: $green;
+    color: #a9b665;
 }
-
 .disk_bar {
-    color: $yellow;
+    color: #d8a657;
 }
-.monitor {
+.text {
+    margin-top: 60px;
+    font-weight: bold;
+    font-size: 24px;
+}
+.System-label {
     font-weight: bold;
     font-family: "JetBrainsMono Nerd Font", monospace;
-    border-radius: 5px 5px 5px 5px;
-    padding-top: 5px;
-    margin: 15px;
-}
-.main {
-    background-color: $bg-dark;
-    border-radius: 5px;
-    border-left: 5px solid $gray;
-}
+    font-size: 28px;
 
+}
 .user {
+    margin: -20px 0px 0px -10px;
     font-weight: bold;
     font-size: 25px;
     font-family: "JetBrainsMono Nerd Font", monospace;
-    border-bottom: $fg 3px solid;
+    border-bottom: #ebdbb2 3px solid;
     opacity: 1;
+    color: white;
 }
 .profile-pic {
-        margin-left: 15px;
-        border: solid $gray 5px;
-        opacity: 1;
+    margin: 30px 0px 30px 20px;
+    background-image: url('./Profile.jpg');
+    background-size: 100%;
+    min-height: 120px;
+    min-width: 120px;
+    background-repeat: no-repeat;
+    border-radius: 60%;
+    box-shadow: 1 2px 3px 2px rgba(15,15,6,1);
 }
-.user {
-    margin-right: 75px;
-    color: $fg;
-
+.profile {
+    opacity: 0.9;
+    background-color: #2d3035;
+    border-radius: 15px;
+    border-left: #928374 solid 3px;
+    box-shadow: 1 2px 3px 2px rgba(15,15,6,0.5);
+}
+.uptime{
+    margin: -10px 0px 20px 10px;
+  font-weight: bold;
+  color: #89b482;
 }
 
+.userstuff {
+    margin: 20px 0px 0px 20px;
+}
+.power {
+    margin: -30px -100px 40px 0px;
+    padding: 2px 4px 2px 4px;
+    font-size: 24px;
+    background-color: #3e4251;
+    border-radius: 30px;
+    box-shadow: 1 2px 3px 2px rgba(15,15,6,0.8);
 
+}
+.monitor {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    background-color: #2d3035;
+}
