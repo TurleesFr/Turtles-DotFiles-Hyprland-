@@ -1,99 +1,134 @@
 ;;made entirely by https://github.com/TurleesFr
 ;;updated by https://github.com/TurleesFr
+;; shoutout to https://github.com/Mon4sm for helping me
 
 
-(defpoll cpu_usage :interval "3s" "scripts/cpu.sh")
-(defpoll ram_usage :interval "3s" "scripts/ram.sh")
-(defpoll disk_usage :interval "60s" "scripts/disk.sh")
-(defpoll network_usage :interval "1s" "scripts/network.sh")
 (defpoll sys_uptime :interval "60s" "scripts/uptime.sh")
 (defpoll username :interval "60s" "whoami")
 
 
 (defwindow main
   :monitor 0
-  :geometry (geometry :x "0"
+  :geometry (geometry :x "1%"
                       :y "0%"
-                      :width "18%"
-                      :height "30%"
+                      :width "16%"
+                      :height "40%"
                       :anchor "top right")
   :stacking "fg"
   :exclusive false
   :focusable "ondemand"
   :namespace "EWW-Widget"
-(monitor)
-)
+  (box :class "USERMENU" :orientation "vertical"
+  :spacing 20
+  :space-evenly false
+(box :class "profile-menu"
+:hexpand false
+:vexpand true
+:orientation "vertical"
+(profile))
 
-(defwidget monitor []
+  (box :class "monitor-menu"
+:orientation "vertical"
+:hexpand false
+:vexpand true
+(monitor))))
+
+(defwidget profile []
   (box :class "everything"
+  :space-evenly false
   :orientation "vertical"
+  :updates true
   (box :class "profile"
   :orientation "horizontal"
-  :clip true
+  :space-evenly false
   :spacing 10
-(image :path "/home/erik/HyprProfile/Profile.png" 
-  :image-width 150
-  :image-height 150
+(box
+  :space-evenly false
   :halign "start"
   :valign "center"
   :class "profile-pic")
   (box :orientation "vertical"
+  :class "userstuff"
   (label :text "--${username}" :halign "center" :valign "center"
   :class "user")
-  (label :text "Uptime: ${sys_uptime}" :halign "start" :valign "center"
-  :class "uptime"
-  )))
-
-  (box :class "monitor"
-  :spacing "10"
+  (label :text "Uptime: ${sys_uptime}" :halign "start" :valign "start"
+  :class "uptime")
+  (box :class "power"
+  :space-evenly true
   :orientation "horizontal"
-  (overlay :align "center"
+  (box :class "shutdown"
+  (eventbox
+  :onclick "systemctl poweroff"
+  (label :text "" :style " color: #ea6962")))
+
+  (box :class "reboot"
+  (eventbox
+  :onclick "systemctl reboot"
+  (label :text "" :style " color: #e78a4e")))
+
+  (box :class "suspend"
+  (eventbox
+    :onclick "systemctl suspend"
+  (label :text "󰤄" :style " color: #d8a657")))
+
+  (box :class "logout"
+  (eventbox
+  :onclick "hyprctl dispatch exit"
+  (label :text "" :style " color: #7daea3")))
+)))))
+
+(defwidget monitor []
+  (box :orientation "vertical" :class "monitor"
+  :space-evenly false
+  (label :text "System" :class "System-label")
+  (box :class "DonutContainer"
+  :vexpand false
+  :hexpand false
+  :space-evenly true
+  :spacing 10
+  (box :class "cpu" :orientation "v"
+  :space-evenly false
+  (overlay :space-evenly false
     (circular-progress
-      :value 100
-      :size 50
-      :thickness 15
-      :class "donut-underlay")
-    (circular-progress
-      :value cpu_usage
-      :size 50
-      :thickness 15
-      :class "cpu_bar"
-    (box :orientation "vertical"
-    :spacing -130
-    (label :text "Cpu")
-    (label :text "${cpu_usage}%"))))
+    :width 100
+    :class "donut"
+    :height 100
+    :thickness 15
+    :value {round(EWW_CPU.avg, 10)})
+    (label :text "" :style "font-size: 36px;" :class "cpu1"))
+    (box :orientation "v"
+    (label :text "Cpu usage:")
+    (label :text "${round(EWW_CPU.avg, 1)}%")))
   
-   (overlay :align "center"
+    (box :class "ram" :orientation "v"
+  :space-evenly false
+  (overlay :space-evenly false
     (circular-progress
-      :value 100
-      :size 50
-      :thickness 15
-      :class "donut-underlay")
+    :width 100
+    :class "donut"
+    :height 100
+    :thickness 15
+    :value {round(EWW_RAM.used_mem_perc, 10)})
+    (label :text "" :style "font-size: 36px;" :class "ram1"))
+    (box :orientation "v"
+    (label :text "Used Ram:")
+    (label :text "${round(EWW_RAM.used_mem_perc, 1)}%")))
+    
+    (box :class "disk" :orientation "v"
+  :space-evenly false
+  (overlay :space-evenly false
     (circular-progress
-      :value ram_usage
-      :size 50
-      :thickness 15
-      :class "ram_bar"
-    (box :orientation "vertical"
-    :spacing -130
-    (label :text "Ram")
-    (label :text "${ram_usage}%"))))
-     (overlay :align "center"
-    (circular-progress
-      :value 100
-      :size 50
-      :thickness 15
-      :class "donut-underlay")
-    (circular-progress
-      :value disk_usage
-      :size 50
-      :thickness 15
-      :class "disk_bar"
-    (box :orientation "vertical"
-    :spacing -130
-    (label :text "Storage")
-    (label :text "${disk_usage}%"))))
-
-  ))
-
+    :width 100
+    :class "donut"
+    :height 100
+    :thickness 15
+    :value {round(EWW_DISK["/home"].used_perc, 10)})
+    (label :text "󱊞" :style "font-size: 36px;" :class "disk1"))
+    (box :orientation "v"
+    (label :text "Storage used:")
+    (label :text "${round(EWW_DISK["/home"].used / (1024*1024*1024), 1)} GB")))
+  )
 )
+)
+
+
