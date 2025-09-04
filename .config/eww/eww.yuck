@@ -1,37 +1,61 @@
-;;made entirely by https://github.com/TurleesFr
+;;made by https://github.com/TurleesFr
 ;;updated by https://github.com/TurleesFr
-;; shoutout to https://github.com/Mon4sm for helping me
-
+;; thank you https://github.com/Mon4sm for helping me out a bit
 
 (defpoll sys_uptime :interval "60s" "scripts/uptime.sh")
 (defpoll username :interval "60s" "whoami")
+(deflisten vol "sh ~/.config/eww/scripts/VolScale.sh")
+(deflisten media "sh ~/.config/eww/scripts/media-listen.sh")
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0.1%"
+                      :y "0%"
+                      :width "1.8%"
+                      :height "99%"
+                      :anchor "right center")
+  :stacking "fg"
+  :exclusive true
+  :focusable "ondemand"
+  :namespace "EWW-Bar"
+(box :class "windbar"
+:vexpand false
+:hexpand false
+(bar)
+))
+
+(defvar mainrev false)
+
+(defwidget bar []
+  (box :orientation "v"
+  :space-evenly false
+    (eventbox
+    :onclick "eww update mainrev=${mainrev==true?false:true}; \
+    if [ ${mainrev} = true ]; then eww close main; else eww open main; fi"
+      (label :text "" :class "bar-button" :style "color: #e78a4e"))
+    (label :text "${vol==0 ? '' : vol<50 ? '' : ''}" :style "color: #89b482")
+  (scale
+  :flipped true
+  :orientation "v"
+  :class "volume"
+  :value vol
+  :min 0
+  :max 101
+  :round-digits: "1"
+  :onchange "pamixer --set-volume {}")))
 
 
 (defwindow main
   :monitor 0
-  :geometry (geometry :x "1%"
-                      :y "0%"
+  :geometry (geometry :x "0.2%"
+                      :y "0.7%"
                       :width "16%"
-                      :height "40%"
+                      :height "33%"
                       :anchor "top right")
-  :stacking "fg"
-  :exclusive false
-  :focusable "ondemand"
-  :namespace "EWW-Widget"
-  (box :class "USERMENU" :orientation "vertical"
-  :spacing 20
-  :space-evenly false
-(box :class "profile-menu"
-:hexpand false
-:vexpand true
-:orientation "vertical"
-(profile))
-
-  (box :class "monitor-menu"
-:orientation "vertical"
-:hexpand false
-:vexpand true
-(monitor))))
+  :stacking "overlay"
+(box 
+  :class "profile-menu"
+(profile)))
 
 (defwidget profile []
   (box :class "everything"
@@ -75,10 +99,9 @@
   (eventbox
   :onclick "hyprctl dispatch exit"
   (label :text "" :style " color: #7daea3")))
-)))))
-
-(defwidget monitor []
-  (box :orientation "vertical" :class "monitor"
+)))
+(label :text " ")
+(box :orientation "vertical" :class "monitor"
   :space-evenly false
   (label :text "System" :class "System-label")
   (box :class "DonutContainer"
@@ -128,7 +151,12 @@
     (label :text "Storage used:")
     (label :text "${round(EWW_DISK["/home"].used / (1024*1024*1024), 1)} GB")))
   )
+  (label :text " ")
+(box :direction "h" :class "Net"
+(label :text " ${round(EWW_NET.wlan0.NET_DOWN / 1024, 1 )} kB/s" :class "netdown")
+(label :text " ${round(EWW_NET.wlan0.NET_UP / 1024, 1 )} kB/s" :class "netup"))
+  (label :text " ")
 )
-)
+))
 
 
