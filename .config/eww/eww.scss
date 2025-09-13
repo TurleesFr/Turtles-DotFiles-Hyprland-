@@ -17,58 +17,7 @@ $gray:       #928374;
 $accent:     $blue;
 $outline:    $gray;
 
-.DonutContainer{
-    padding: 0.625rem;
-}
-.cpu {
-    padding: 0.3125rem;
-    font-weight: bold;
-    color: #ea6962;
-    border-radius: 1.25rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.25);
-}
-.cpu1 { margin-left: -0.6875rem; }
-.ram1 { margin-left: -0.9125rem; }
-.disk1 { margin-left: -0.4375rem; }
-.ram {
-    padding: 0.3125rem;
-    font-weight: bold;
-    color: #a9b665;
-    border-radius: 1.25rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.25);
-}
-.disk {
-    padding: 0.3125rem;
-    font-weight: bold;
-    color: #d8a657;
-    border-radius: 1.25rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.25);
-}
-.donut {
-    background-color: #373a47;
-}
-.ram_bar { color: #a9b665; }
-.disk_bar { color: #d8a657; }
 
-.text {
-    margin-top: 3.75rem;
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-.System-label {
-    font-weight: bold;
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    font-size: 1.75rem;
-}
-.user {
-    margin: -1.25rem 0 0 -0.625rem;
-    font-weight: bold;
-    font-size: 1.5625rem;
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    border-bottom: 0.1875rem solid #ebdbb2;
-    opacity: 1;
-    color: white;
-}
 .profile-pic {
     margin: 1.875rem 0 1.875rem 1.25rem;
     background-image: url('./Profile.jpg');
@@ -78,49 +27,9 @@ $outline:    $gray;
     background-repeat: no-repeat;
     border-radius: 60%;
     box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,1);
+    transition: color 0.3s;
 }
-.profile {
-    opacity: 0.98;
-    background-color: #2d3035;
-    border-radius: 0.9375rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.5);
-}
-.uptime {
-    margin: -0.625rem 0 1.25rem 0.625rem;
-    font-weight: bold;
-    color: #89b482;
-}
-.everything {
-    background-color: rgba(33, 35, 38, 0.95);
-    border-radius: 1.25rem;
-    padding: 0.625rem;
-}
-.userstuff { margin: 1.25rem 0 0 1.25rem; }
-.power {
-    margin: -1.875rem -6.25rem 2.5rem 0;
-    padding: 0.125rem 0.25rem;
-    font-size: 1.5rem;
-    background-color: #3e4251;
-    border-radius: 1.875rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.8);
-}
-.monitor {
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    background-color: #2d3035;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.5);
-    border-radius: 0.9375rem;
-}
-.Net {
-    border-radius: 1.25rem;
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #7daea3;
-    margin: 0 3.125rem 0 3.125rem;
-    padding: 0.375rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-    background-color: #24272c;
-}
+
 .volbox {
     margin: 1.25rem 1.25rem 0 1.25rem;
     font-size: 1.25rem;
@@ -138,7 +47,7 @@ $outline:    $gray;
     all: unset;
     min-height: 12.5rem;
     border-radius: 1.25rem;
-    min-width: 1.5625rem;
+    min-width: 1.2rem;
     background-color: #40543d;
     box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
 }
@@ -147,23 +56,107 @@ $outline:    $gray;
     border-radius: 1.25rem;
     background-color: #89b482;
 }
-.voltxt { margin-left: 0.1875rem; }
-.main { background-color: rgba(0,0,0,0); }
-.USERMENU {
-    background-color: rgba(33, 35, 38, 0.95);
-    padding: 0.9375rem;
+.brightness slider {
     border-radius: 1.25rem;
+    all: unset;
+    opacity: 1;
 }
+.brightness trough {
+    all: unset;
+    min-height: 12.5rem;
+    border-radius: 1.25rem;
+    min-width: 1.2rem;
+    background-color: #312d25;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
+.brightness trough highlight {
+    all: unset;
+    border-radius: 1.25rem;
+    background-color: #d8a657;
+}
+
 .bar { 
     background-color: rgba(33, 35, 38, 0.95);
-    border-radius: 1.875rem;
+    border-radius: 1.7rem;
 }
-.flame {
-    font-size: 1.5rem;
-    color: #e78a4e;
-}
-.revealer1 {
-    background-color: #ffffff;
-    color: red;
-}
+
+
 .bar-button { font-size: 1.5rem; }
+.calend2 {
+    background-color: rgba(33, 35, 38, 0.95);
+    color: #7daea3;
+    border-radius: 1rem 0px 0px 1rem;
+    padding: 0.6rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.calbox {
+    background-color: #26282e;
+    padding: 0.3rem;
+    border-radius: 1rem;
+}
+.calend3 {
+    box-shadow: 0.0625rem 0.125rem 0.3875rem 0.125rem rgba(15,15,6,0.3);
+    border-radius: 1rem;
+}
+.calend2 calendar{
+    color: #a9b665;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    background-color: #2d3035;
+    border-radius: 1rem;
+    border-color: rgba(0,0,0,0);
+    &.header {
+        color: #e78a4e;
+    }
+    &.highlight{
+        color: #d8a657;
+    }
+    &.button {
+        color: #e78a4e;
+    }
+    &:indeterminate {
+        color: #89b482
+    }
+}
+.calend2 calendar:selected {
+    color: #ea6962;
+}
+.time {
+    background-color: rgba(0,0,0,0)
+}
+.volcalclock {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background-color: #2d3035;
+    margin-bottom: 0.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.3875rem 0.125rem rgba(15,15,6,0.3);
+}
+.baricon {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-weight: bold;
+    background-color: rgb(21, 22, 24);
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
+.bariconmain {
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
+}
+.playerctl1 {
+    padding: 1rem;
+    background-color: rgb(21, 22, 24);
+    padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #7daea3;
+    border-radius: 1rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
+
+.media1 {
+    background-color: rgb(21, 22, 24);
+    border-radius: 1rem;
+    font-weight: bold;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    color: white;
+}
