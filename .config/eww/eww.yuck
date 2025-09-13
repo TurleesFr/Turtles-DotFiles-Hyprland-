@@ -6,6 +6,15 @@
 (defpoll username :interval "60s" "whoami")
 (deflisten vol "sh ~/.config/eww/scripts/VolScale.sh")
 (deflisten media "sh ~/.config/eww/scripts/media-listen.sh")
+(defpoll clock :interval "5s" "date +'%H %M %p'")
+(deflisten brightness "sh ~/.config/eww/scripts/brightness.sh")
+(defpoll player :interval "1s" "./scripts/playerctl1.sh")
+(defpoll workspace :interval "0.25s" "~/.config/eww/scripts/hyprworkspaces.sh")
+
+
+
+
+
 
 (defwindow bar
   :monitor 0
@@ -24,16 +33,35 @@
 (bar)
 ))
 
-(defvar mainrev false)
 
-(defwidget bar []
-  (box :orientation "v"
+(defvar mainrev false)
+(defvar volcal false)
+(defwidget bottombar []
+  (box :space-evenly false
+    :orientation "v"
+    (box  :style "    background-color: rgb(21, 22, 24);
+    padding: 0.5rem; 
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.3rem 0.5rem 0.3rem 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+    (label :text "${workspace}"))
+    (box :orientation "v" :halign "center"
+    :style "    background-color: rgb(21, 22, 24);
+    padding: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.3rem 0rem 0.3rem 0rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
   :space-evenly false
-    (eventbox
-    :onclick "eww update mainrev=${mainrev==true?false:true}; \
-    if [ ${mainrev} = true ]; then eww close main; else eww open main; fi"
-      (label :text "" :class "bar-button" :style "color: #e78a4e"))
-    (label :text "${vol==0 ? '' : vol<50 ? '' : ''}" :style "color: #89b482")
+  :class "baricon1"
+  (revealer
+    :reveal {volrev}
+    :transition "slideup"
+    :duration "300ms"
+  (tooltip
+  (label :text "${vol}%")
   (scale
   :flipped true
   :orientation "v"
@@ -42,9 +70,102 @@
   :min 0
   :max 101
   :round-digits: "1"
-  :onchange "pamixer --set-volume {}")))
+  :onchange "pamixer --set-volume {}"
+:vexpand false
+      :hexpand false)))
+  (eventbox
+      :onclick "eww update volrev=${volrev==true?false:true} brightnessrev=false"
+      :orientation "h"
+      :onrightclick "pavucontrol &"
+    (label :text "󰕾" :style "color: #89b482;" :xalign 0.365)))
 
+    (box :orientation "v" :halign "center"
+  :space-evenly false
+    :style "    background-color: rgb(21, 22, 24);
+    padding: 0.5rem; 
+    border-radius: 0.5rem 0.5rem 1rem 1rem;
+    margin: 0.3rem 0rem 0.3rem 0rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+  (revealer
+    :reveal {brightnessrev}
+    :transition "slideup"
+    :duration "300ms"
+  (tooltip
+  (label :text "${brightness}%")
+  (scale
+  :flipped true
+  :orientation "v"
+  :class "brightness"
+  :value brightness
+  :min 0
+  :max 101
+  :round-digits: "1"
+  :onchange "brightnessctl set {}%"
+:vexpand false
+      :hexpand false)))
 
+  (eventbox
+      :onclick "eww update brightnessrev=${brightnessrev==true?false:true} volrev=false"
+      :orientation "h"
+    (label :text "󰌵" :style "color: #d8a657;" :xalign 0.5)))
+  )
+)
+(defwidget topbar []
+  (box :space-evenly false :orientation "v"
+  (box
+  :style "background-color: rgb(21, 22, 24);
+    padding: 0.5rem;
+    border-radius: 1rem 1rem 0.5rem 0.5rem;
+    margin: 0.5rem 0.5rem 0.3rem 0.5rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+  (eventbox 
+    :onclick "~/.config/eww/scripts/main_toggle.sh"
+  (label :text "" :style "color: #ea6962; font-size: 1.5rem; padding: 0rem 0.5rem 0rem 0rem" :xalign 0)))
+  (eventbox 
+  :onclick "eww update volcal=${volcal==true?false:true}; \
+    if [ ${volcal} = true ]; then eww close time; else eww open time; fi"
+    (box :class "baricon" :orientation "v"
+    (label :text "${h}")
+    (label :text "${m}")))
+  )
+)
+(defwidget centrebar []
+  (box :halign "center" :valign "center" :vexpand true :hexpand false
+  :class "playerctl1"
+  :spacing 5
+  :space-evenly false
+  :orientation "v"
+  (box
+  (eventbox :onclick "playerctl next &"
+  (label :text "󰒭" :halign "start" :angle 90)))
+  (eventbox
+    :onclick "playerctl play-pause"
+      (label :text "${player}" :xalign 0.5 :angle 90))
+      (box
+    (eventbox :onclick "playerctl previous &"
+  (label :text "󰒭" :xalign 0.6 :angle 270))))
+)
+
+(defwidget bar []
+  (box :orientation "v"
+  :space-evenly true
+  :vexpand false
+  :hexpand false
+  :class "bar1"
+  (topbar)
+    (box :valign "center"
+  (centrebar))
+    (box :valign "end"
+    :style "margin: 0rem 0rem 0.5rem 0rem;"
+  (bottombar))
+)
+)
+(defpoll h :interval "5s" "date +'%H'")
+(defpoll m :interval "5s" "date +'%M'")
+(defvar volrev false)
+(defvar brightnessrev false)
 (defwindow main
   :monitor 0
   :geometry (geometry :x "0.2%"
@@ -52,111 +173,25 @@
                       :width "16%"
                       :height "33%"
                       :anchor "top right")
-  :stacking "overlay"
+  :stacking "fg"
+
 (box 
   :class "profile-menu"
 (profile)))
 
 (defwidget profile []
-  (box :class "everything"
-  :space-evenly false
-  :orientation "vertical"
-  :updates true
-  (box :class "profile"
-  :orientation "horizontal"
-  :space-evenly false
-  :spacing 10
-(box
-  :space-evenly false
-  :halign "start"
-  :valign "center"
-  :class "profile-pic")
-  (box :orientation "vertical"
-  :class "userstuff"
-  (label :text "--${username}" :halign "center" :valign "center"
-  :class "user")
-  (label :text "Uptime: ${sys_uptime}" :halign "start" :valign "start"
-  :class "uptime")
-  (box :class "power"
-  :space-evenly true
-  :orientation "horizontal"
-  (box :class "shutdown"
-  (eventbox
-  :onclick "systemctl poweroff"
-  (label :text "" :style " color: #ea6962")))
-
-  (box :class "reboot"
-  (eventbox
-  :onclick "systemctl reboot"
-  (label :text "" :style " color: #e78a4e")))
-
-  (box :class "suspend"
-  (eventbox
-    :onclick "systemctl suspend"
-  (label :text "󰤄" :style " color: #d8a657")))
-
-  (box :class "logout"
-  (eventbox
-  :onclick "hyprctl dispatch exit"
-  (label :text "" :style " color: #7daea3")))
-)))
-(label :text " ")
-(box :orientation "vertical" :class "monitor"
-  :space-evenly false
-  (label :text "System" :class "System-label")
-  (box :class "DonutContainer"
-  :vexpand false
-  :hexpand false
-  :space-evenly true
-  :spacing 10
-  (box :class "cpu" :orientation "v"
-  :space-evenly false
-  (overlay :space-evenly false
-    (circular-progress
-    :width 100
-    :class "donut"
-    :height 100
-    :thickness 15
-    :value {round(EWW_CPU.avg, 10)})
-    (label :text "" :style "font-size: 36px;" :class "cpu1"))
-    (box :orientation "v"
-    (label :text "Cpu usage:")
-    (label :text "${round(EWW_CPU.avg, 1)}%")))
-  
-    (box :class "ram" :orientation "v"
-  :space-evenly false
-  (overlay :space-evenly false
-    (circular-progress
-    :width 100
-    :class "donut"
-    :height 100
-    :thickness 15
-    :value {round(EWW_RAM.used_mem_perc, 10)})
-    (label :text "" :style "font-size: 36px;" :class "ram1"))
-    (box :orientation "v"
-    (label :text "Used Ram:")
-    (label :text "${round(EWW_RAM.used_mem_perc, 1)}%")))
-    
-    (box :class "disk" :orientation "v"
-  :space-evenly false
-  (overlay :space-evenly false
-    (circular-progress
-    :width 100
-    :class "donut"
-    :height 100
-    :thickness 15
-    :value {round(EWW_DISK["/home"].used_perc, 10)})
-    (label :text "󱊞" :style "font-size: 36px;" :class "disk1"))
-    (box :orientation "v"
-    (label :text "Storage used:")
-    (label :text "${round(EWW_DISK["/home"].used / (1024*1024*1024), 1)} GB")))
-  )
-  (label :text " ")
-(box :direction "h" :class "Net"
-(label :text " ${round(EWW_NET.wlan0.NET_DOWN / 1024, 1 )} kB/s" :class "netdown")
-(label :text " ${round(EWW_NET.wlan0.NET_UP / 1024, 1 )} kB/s" :class "netup"))
-  (label :text " ")
+  (revealer :reveal {mainrev}
+  :transition "slideleft"
+  :duration 300
+  (box :orientation "v"
+(user)
+(sys))
 )
-))
+)
 
-
+(defwidget profile []
+  (box :orientation "h"
+  (box :orientation "v")
+  (box :orientation "v")
+)
+)
