@@ -1,7 +1,7 @@
 # Turtles-DotFiles-Hyprland-
 
 DAILY UPDATE::::<br/>
-Making my first EWW menu! Already made some widgets tonight<br/>
+Eww bar is finally complete, now remaking the menu
 <br/>
 RECENT CHANGES <br/>
 deleted dunst and replacing with swaync<br/>
@@ -12,11 +12,11 @@ figuring out how to use it and how to conf it
 #EWW
 Need to make EWW menu <br/>
 Profile Pic <br/>
-Music player <br/>
+~~Music player~~ CANCELLED <br/>
 Ram, Cpu and Gpu usage (Piechart) <br/>
 
 # REST
 complete GTK Theme installation script <br/>
 Need to make GTK Theme work for Hyprland share picker and xdg <br/>
 Need to add QT Themes <br/> 
-MAYBE replace Waybar with EWW <br/>
+~~MAYBE replace Waybar with EWW~~ completed <br/>
