@@ -1,162 +1,248 @@
-$bg-dark:    #2d3035;
-$bg:         #32353f;
-$bg-light:   #3e4251;
-$fg:         #ebdbb2;
-$fg-alt:     #d5c4a1;
+;;made by https://github.com/TurleesFr
+;;updated by https://github.com/TurleesFr
+;; thank you https://github.com/Mon4sm for helping me out a bit
 
-$red:        #ea6962;
-$hover-red:  #82332f;
-$green:      #a9b665;
-$yellow:     #d8a657;
-$blue:       #7daea3;
-$purple:     #d3869b;
-$aqua:       #89b482;
-$orange:     #e78a4e;
-$gray:       #928374;
-
-$accent:     $blue;
-$outline:    $gray;
+(defpoll uptime :interval "60s" "scripts/uptime.sh")
+(defpoll username :interval "60s" "whoami")
+(deflisten vol "sh ~/.config/eww/scripts/VolScale.sh")
+(deflisten media "sh ~/.config/eww/scripts/media-listen.sh")
+(defpoll clock :interval "5s" "date +'%H %M %p'")
+(deflisten brightness "sh ~/.config/eww/scripts/brightness.sh")
+(defpoll player :interval "1s" "./scripts/playerctl1.sh")
+(defpoll workspace :interval "0.25s" "~/.config/eww/scripts/hyprworkspaces.sh")
 
 
-.profile-pic {
-    margin: 1.875rem 0 1.875rem 1.25rem;
-    background-image: url('./Profile.jpg');
-    background-size: 100%;
-    min-height: 7.5rem;
-    min-width: 7.5rem;
-    background-repeat: no-repeat;
-    border-radius: 60%;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,1);
-    transition: color 0.3s;
-}
-
-.volbox {
-    margin: 1.25rem 1.25rem 0 1.25rem;
-    font-size: 1.25rem;
-    color: #89b482;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-    padding: 0.625rem 0.1875rem;
-    border-radius: 1.25rem;
-}
-.volume slider {
-    border-radius: 1.25rem;
-    all: unset;
-    opacity: 1;
-}
-.volume trough {
-    all: unset;
-    min-height: 12.5rem;
-    border-radius: 1.25rem;
-    min-width: 1.2rem;
-    background-color: #40543d;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-}
-.volume trough highlight {
-    all: unset;
-    border-radius: 1.25rem;
-    background-color: #89b482;
-}
-.brightness slider {
-    border-radius: 1.25rem;
-    all: unset;
-    opacity: 1;
-}
-.brightness trough {
-    all: unset;
-    min-height: 12.5rem;
-    border-radius: 1.25rem;
-    min-width: 1.2rem;
-    background-color: #312d25;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-}
-.brightness trough highlight {
-    all: unset;
-    border-radius: 1.25rem;
-    background-color: #d8a657;
-}
-
-.bar { 
-    background-color: rgba(33, 35, 38, 0.95);
-    border-radius: 1.7rem;
-}
 
 
-.bar-button { font-size: 1.5rem; }
-.calend2 {
-    background-color: rgba(33, 35, 38, 0.95);
-    color: #7daea3;
-    border-radius: 1rem 0px 0px 1rem;
-    padding: 0.6rem;
+
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0.1%"
+                      :y "0%"
+                      :width "1.8%"
+                      :height "99%"
+                      :anchor "right center")
+  :stacking "fg"
+  :exclusive true
+  :focusable "ondemand"
+  :namespace "EWW-Bar"
+(box :class "windbar"
+:vexpand false
+:hexpand false
+(bar)
+))
+
+
+(defvar volcal false)
+(defwidget bottombar []
+  (box :space-evenly false
+    :orientation "v"
+    (box  :style "    background-color: rgb(21, 22, 24);
+    padding: 0.5rem; 
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.3rem 0.5rem 0.3rem 0.5rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    font-size: 1rem;
-}
-.calbox {
-    background-color: #26282e;
-    padding: 0.3rem;
-    border-radius: 1rem;
-}
-.calend3 {
-    box-shadow: 0.0625rem 0.125rem 0.3875rem 0.125rem rgba(15,15,6,0.3);
-    border-radius: 1rem;
-}
-.calend2 calendar{
-    color: #a9b665;
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    background-color: #2d3035;
-    border-radius: 1rem;
-    border-color: rgba(0,0,0,0);
-    &.header {
-        color: #e78a4e;
-    }
-    &.highlight{
-        color: #d8a657;
-    }
-    &.button {
-        color: #e78a4e;
-    }
-    &:indeterminate {
-        color: #89b482
-    }
-}
-.calend2 calendar:selected {
-    color: #ea6962;
-}
-.time {
-    background-color: rgba(0,0,0,0)
-}
-.volcalclock {
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+    (label :text "${workspace}"))
+    (box :orientation "v" :halign "center"
+    :style "    background-color: rgb(21, 22, 24);
     padding: 0.5rem;
-    border-radius: 1rem;
-    background-color: #2d3035;
-    margin-bottom: 0.5rem;
-    box-shadow: 0.0625rem 0.125rem 0.3875rem 0.125rem rgba(15,15,6,0.3);
-}
-.baricon {
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    font-weight: bold;
-    background-color: rgb(21, 22, 24);
-    margin: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-}
-.bariconmain {
-    margin: 1rem 0.5rem 0.5rem 0.5rem;
-}
-.playerctl1 {
-    padding: 1rem;
-    background-color: rgb(21, 22, 24);
-    padding: 0.7rem 0.5rem 0.7rem 0.5rem;
-    font-weight: bold;
-    font-size: 1rem;
-    color: #7daea3;
-    border-radius: 1rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-}
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.3rem 0rem 0.3rem 0rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+  :space-evenly false
+  :class "baricon1"
+  (revealer
+    :reveal {volrev}
+    :transition "slideup"
+    :duration "300ms"
+  (tooltip
+  (label :text "${vol}%")
+  (scale
+  :flipped true
+  :orientation "v"
+  :class "volume"
+  :value vol
+  :min 0
+  :max 101
+  :round-digits: "1"
+  :onchange "pamixer --set-volume {}"
+:vexpand false
+      :hexpand false)))
+  (eventbox
+      :onclick "eww update volrev=${volrev==true?false:true} brightnessrev=false"
+      :orientation "h"
+      :onrightclick "pavucontrol &"
+    (label :text "󰕾" :style "color: #89b482;" :xalign 0.365)))
 
-.media1 {
-    background-color: rgb(21, 22, 24);
-    border-radius: 1rem;
-    font-weight: bold;
-    font-family: "JetBrainsMono Nerd Font", monospace;
-    color: white;
-}
+    (box :orientation "v" :halign "center"
+  :space-evenly false
+    :style "    background-color: rgb(21, 22, 24);
+    padding: 0.5rem; 
+    border-radius: 0.5rem 0.5rem 1rem 1rem;
+    margin: 0.3rem 0rem 0.3rem 0rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+  (revealer
+    :reveal {brightnessrev}
+    :transition "slideup"
+    :duration "300ms"
+  (tooltip
+  (label :text "${brightness}%")
+  (scale
+  :flipped true
+  :orientation "v"
+  :class "brightness"
+  :value brightness
+  :min 0
+  :max 101
+  :round-digits: "1"
+  :onchange "brightnessctl set {}%"
+:vexpand false
+      :hexpand false)))
+
+  (eventbox
+      :onclick "eww update brightnessrev=${brightnessrev==true?false:true} volrev=false"
+      :orientation "h"
+    (label :text "󰌵" :style "color: #d8a657;" :xalign 0.5)))
+  )
+)
+(defwidget topbar []
+  (box :space-evenly false :orientation "v"
+  (box
+  :style "background-color: rgb(21, 22, 24);
+    padding: 0.5rem;
+    border-radius: 1rem 1rem 0.5rem 0.5rem;
+    margin: 0.5rem 0.5rem 0.3rem 0.5rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+  (eventbox 
+    :onclick "~/.config/eww/scripts/main_toggle.sh; eww update splash=\"$(~/.config/eww/scripts/splashtext.sh)\""
+  (label :text "" :style "color: #ea6962; font-size: 1.5rem; padding: 0rem 0.5rem 0rem 0rem" :xalign 0)))
+    (box :class "baricon" :orientation "v"
+    (label :text "${h}")
+    (label :text "${m}")))
+  )
+(defwidget centrebar []
+  (box :halign "center" :valign "center" :vexpand true :hexpand false
+  :class "playerctl1"
+  :spacing 5
+  :space-evenly false
+  :orientation "v"
+  (box
+  (eventbox :onclick "playerctl next &"
+  (label :text "󰒭" :halign "start" :angle 90)))
+  (eventbox
+    :onclick "playerctl play-pause"
+      (label :text "${player}" :xalign 0.5 :angle 90 :truncate true :limit-width 49))
+      (box
+    (eventbox :onclick "playerctl previous &"
+  (label :text "󰒭" :xalign 0.6 :angle 270))))
+)
+
+(defwidget bar []
+  (box :orientation "v"
+  :space-evenly true
+  :vexpand false
+  :hexpand false
+  :class "bar1"
+  (topbar)
+    (box :valign "center"
+  (centrebar))
+    (box :valign "end"
+    :style "margin: 0rem 0rem 0.5rem 0rem;"
+  (bottombar))
+)
+)
+(defpoll h :interval "5s" "date +'%H'")
+(defpoll m :interval "5s" "date +'%M'")
+(defvar volrev false)
+(defvar brightnessrev false)
+(defvar mainrev false)
+
+(defwindow debug
+:monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "10%"
+                      :height "8%"
+                      :anchor "center")
+  :stacking "fg"
+(debug)
+)
+(defwidget debug []
+  (box :orientation "h"
+  :space-evenly false
+(label :text "${mainrev}")
+(revealer 
+  :reveal mainrev
+    :transition "slideright"
+    :duration "300ms"
+  (label :text "${splash}")
+  )
+)
+)
+(defwindow main
+  :monitor 0
+  :geometry (geometry :x "0.2%"
+                      :y "0.7%"
+                      :width "10%"
+                      :height "12%"
+                      :anchor "top right")
+  :stacking "fg"
+  :namespace "UsermenuEWW"
+(box :space-evenly false
+  (revealer
+    :reveal mainrev
+    :transition "slideleft"
+    :duration "120ms"
+(profile)))
+)
+(defwidget profile []
+  (box :orientation "v"
+(user))
+
+)
+
+(defvar splash "$(scripts/splashtext.sh)")
+(defwidget user []
+  (box :orientation "h" :class "profclass"
+  :space-evenly false
+  (box :space-evenly false
+    :class "mainprofile"
+  (box :class "profile-pic"
+:hexpand false
+:vexpand false)
+  
+  (box :orientation "v"
+  :spacing 50
+  :space-evenly false
+  (box :orientation "v"
+  :class "profclass1"
+  :space-evenly false
+  :spacing 7
+  :vexpand false
+  :hexpand false
+  (box :class "splash1"
+  (label :text "${splash}"))
+  (box :class "user1" :vexpand false :hexpand false
+  (label :text "- ${username}" :halign "start"))
+(box :class "up1"
+  (label :text "Your pc's been on for ${uptime}" :halign "start"))
+)
+(box :class "power"
+  (box :class "poweroff"
+  (eventbox :onclick "systemctl poweroff"
+  (label :text "" :style " color: #ea6962")))
+
+
+)
+)
+))
+)
+(defwidget sys []
+  (box :orientation "v")
+)
