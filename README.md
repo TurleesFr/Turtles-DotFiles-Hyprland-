@@ -1,18 +1,11 @@
 # Turtles-DotFiles-Hyprland-
 
-DAILY UPDATE::::<br/>
-Eww bar is finally complete, now remaking the menu
-<br/>
-RECENT CHANGES <br/>
-deleted dunst and replacing with swaync<br/>
-figuring out how to use it and how to conf it
 
 
 # STILL W.I.P
 #EWW
 Need to make EWW menu <br/>
 Profile Pic <br/>
-~~Music player~~ CANCELLED <br/>
 Ram, Cpu and Gpu usage (Piechart) <br/>
 
 # REST
