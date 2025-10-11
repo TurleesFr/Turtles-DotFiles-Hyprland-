@@ -2,7 +2,7 @@
 ;;updated by https://github.com/TurleesFr
 ;; thank you https://github.com/Mon4sm for helping me out a bit
 
-(defpoll sys_uptime :interval "60s" "scripts/uptime.sh")
+(defpoll uptime :interval "60s" "scripts/uptime.sh")
 (defpoll username :interval "60s" "whoami")
 (deflisten vol "sh ~/.config/eww/scripts/VolScale.sh")
 (deflisten media "sh ~/.config/eww/scripts/media-listen.sh")
@@ -34,7 +34,6 @@
 ))
 
 
-(defvar mainrev false)
 (defvar volcal false)
 (defwidget bottombar []
   (box :space-evenly false
@@ -121,16 +120,12 @@
     font-size: 1.5rem;
     box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
   (eventbox 
-    :onclick "~/.config/eww/scripts/main_toggle.sh"
+    :onclick "~/.config/eww/scripts/main_toggle.sh; eww update splash=\"$(~/.config/eww/scripts/splashtext.sh)\""
   (label :text "" :style "color: #ea6962; font-size: 1.5rem; padding: 0rem 0.5rem 0rem 0rem" :xalign 0)))
-  (eventbox 
-  :onclick "eww update volcal=${volcal==true?false:true}; \
-    if [ ${volcal} = true ]; then eww close time; else eww open time; fi"
     (box :class "baricon" :orientation "v"
     (label :text "${h}")
     (label :text "${m}")))
   )
-)
 (defwidget centrebar []
   (box :halign "center" :valign "center" :vexpand true :hexpand false
   :class "playerctl1"
@@ -142,7 +137,7 @@
   (label :text "󰒭" :halign "start" :angle 90)))
   (eventbox
     :onclick "playerctl play-pause"
-      (label :text "${player}" :xalign 0.5 :angle 90))
+      (label :text "${player}" :xalign 0.5 :angle 90 :truncate true :limit-width 49))
       (box
     (eventbox :onclick "playerctl previous &"
   (label :text "󰒭" :xalign 0.6 :angle 270))))
@@ -166,32 +161,88 @@
 (defpoll m :interval "5s" "date +'%M'")
 (defvar volrev false)
 (defvar brightnessrev false)
+(defvar mainrev false)
+
+(defwindow debug
+:monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "10%"
+                      :height "8%"
+                      :anchor "center")
+  :stacking "fg"
+(debug)
+)
+(defwidget debug []
+  (box :orientation "h"
+  :space-evenly false
+(label :text "${mainrev}")
+(revealer 
+  :reveal mainrev
+    :transition "slideright"
+    :duration "300ms"
+  (label :text "${splash}")
+  )
+)
+)
 (defwindow main
   :monitor 0
   :geometry (geometry :x "0.2%"
                       :y "0.7%"
-                      :width "16%"
-                      :height "33%"
+                      :width "10%"
+                      :height "12%"
                       :anchor "top right")
   :stacking "fg"
-
-(box 
-  :class "profile-menu"
+  :namespace "UsermenuEWW"
+(box :space-evenly false
+  (revealer
+    :reveal mainrev
+    :transition "slideleft"
+    :duration "120ms"
 (profile)))
-
+)
 (defwidget profile []
-  (revealer :reveal {mainrev}
-  :transition "slideleft"
-  :duration 300
   (box :orientation "v"
-(user)
-(sys))
-)
+(user))
+
 )
 
-(defwidget profile []
-  (box :orientation "h"
-  (box :orientation "v")
-  (box :orientation "v")
+(defvar splash "$(scripts/splashtext.sh)")
+(defwidget user []
+  (box :orientation "h" :class "profclass"
+  :space-evenly false
+  (box :space-evenly false
+    :class "mainprofile"
+  (box :class "profile-pic"
+:hexpand false
+:vexpand false)
+  
+  (box :orientation "v"
+  :spacing 50
+  :space-evenly false
+  (box :orientation "v"
+  :class "profclass1"
+  :space-evenly false
+  :spacing 7
+  :vexpand false
+  :hexpand false
+  (box :class "splash1"
+  (label :text "${splash}"))
+  (box :class "user1" :vexpand false :hexpand false
+  (label :text "- ${username}" :halign "start"))
+(box :class "up1"
+  (label :text "Your pc's been on for ${uptime}" :halign "start"))
 )
+(box :class "power"
+  (box :class "poweroff"
+  (eventbox :onclick "systemctl poweroff"
+  (label :text "" :style " color: #ea6962")))
+
+
+)
+)
+))
+)
+(defwidget sys []
+  (box :orientation "v")
 )
