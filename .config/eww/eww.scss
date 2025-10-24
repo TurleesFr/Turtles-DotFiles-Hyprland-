@@ -19,6 +19,10 @@ $outline:    $gray;
 .main {
     background-color: rgba(0,0,0,0)
 }
+.powerbox {
+    margin: 0rem 0.5rem;
+}
+
 .splash1 {
     border-bottom: 0.1rem solid;
 }
@@ -37,65 +41,45 @@ $outline:    $gray;
     background-color: rgba(255,255,255,0);
 }
 .profclass1 {
-    background-color: rgba(255,255,0,0);
+   background-color: rgb(28, 29, 31);
+   padding: 1rem;
+   border-radius: 1rem;
+   box-shadow: 0 2px 3px 2px rgba(6,6,11,0.3);
 }
 .mainprofile {
-    background-color: rgb(24, 26, 29);
+    background-color: rgb(16, 17, 19);
     padding: 0.6rem;
     border-radius: 1rem;
     font-weight: bold;
 }
-.volbox {
-    margin: 1.25rem 1.25rem 0 1.25rem;
-    font-size: 1.25rem;
-    color: #89b482;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-    padding: 0.625rem 0.1875rem;
-    border-radius: 1.25rem;
-}
-.volume slider {
-    border-radius: 1.25rem;
-    all: unset;
-    opacity: 1;
-}
-.volume trough {
-    all: unset;
-    min-height: 12.5rem;
-    border-radius: 1.25rem;
-    min-width: 1.2rem;
-    background-color: #40543d;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-}
-.volume trough highlight {
-    all: unset;
-    border-radius: 1.25rem;
-    background-color: #89b482;
-}
-.brightness slider {
-    all: unset;
-    opacity: 1;
-}
-.brightness trough {
-    all: unset;
-    min-height: 12.5rem;
-    border-radius: 1.25rem;
-    min-width: 1.2rem;
-    background-color: #312d25;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
-}
-.brightness trough highlight {
-    all: unset;
-    border-radius: 1.25rem;
-    background-color: #d8a657;
-}
 
 .bar { 
-    background-color: rgba(36, 39, 44, 0.8);
+    background-color: rgba(21, 22, 24, 0.85);
     border-radius: 1.7rem;
+}
+.bottombar {
+
 }
 
 
 .bar-button { font-size: 1.5rem; }
+.workspace {
+    padding: 0.7rem; 
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.3rem 0.5rem 0.3rem 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: rgb(21, 22, 24);
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
+.brightnessrev {
+    background-color: rgb(21, 22, 24);
+    padding: 0.7rem; 
+    border-radius: 0.5rem 0.5rem 1rem 1rem;
+    margin: 0.3rem 0rem 0.3rem 0rem;
+    font-size: 1.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
 
 .baricon {
     font-family: "JetBrainsMono Nerd Font", monospace;
@@ -110,11 +94,80 @@ $outline:    $gray;
 }
 .playerctl1 {
     padding: 1rem;
-    background-color: rgb(21, 22, 24);
+    background-color: rgba(21, 22, 24, 0.85);
     padding: 0.7rem 0.5rem 0.7rem 0.5rem;
     font-weight: bold;
     font-size: 1rem;
     color: #7daea3;
     border-radius: 1rem;
     box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
+
+// Volume 
+.volume slider,.volume trough,.volume trough highlight {
+    all: unset;
+}
+.volume slider {
+    opacity: 1;
+}
+.volume trough {
+    margin-top: 1rem;
+    border-radius: 1.25rem;
+    min-height: 12.5rem;
+    min-width: 1.25rem;
+    background-color: #40543d;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15, 15, 6, 0.2);
+}
+.volume trough highlight {
+        border-radius: 1.25rem;
+    background-color: #89b482;
+}
+// Brightness
+.brightness slider,.brightness trough,.brightness trough highlight {
+    all: unset;
+}
+.brightness slider {
+    opacity: 1;
+}
+.brightness trough {
+    margin-top: 1rem;
+    border-radius: 1.25rem;
+    min-height: 12.5rem;
+    min-width: 1.25rem;
+    background-color: #312d25;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15, 15, 6, 0.2);
+}
+.brightness trough highlight {
+        border-radius: 1.25rem;
+    background-color: #d8a657;
+}
+
+// buttons lwk
+button.pres,button.preb,button.psus,button.volbut,.brtbut{
+    padding: 1rem;
+    font-size: 1.5rem;
+    box-shadow: none;
+    background: none;
+}
+.brtbut{
+    color: #d8a657;
+}
+button.volbut{
+    color: #89b482;
+}
+button.pres {
+    color: #7daea3
+}
+button.preb {
+    color: #89b482;
+}
+button.psus {
+    color: #d8a657;
+}
+button.poff {
+    box-shadow: none;
+    padding-bottom: 1rem;
+    background: none;
+    color: #ea6962;
+    font-size: 1.5rem;
 }
