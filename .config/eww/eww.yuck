@@ -2,7 +2,7 @@
 ;;updated by https://github.com/TurleesFr
 ;; thank you https://github.com/Mon4sm for helping me out a bit
 
-(defpoll uptime :interval "60s" "scripts/uptime.sh")
+(defpoll uptime :interval "60s" "uptime -p")
 (defpoll username :interval "60s" "whoami")
 (deflisten vol "sh ~/.config/eww/scripts/VolScale.sh")
 (deflisten media "sh ~/.config/eww/scripts/media-listen.sh")
@@ -10,12 +10,54 @@
 (deflisten brightness "sh ~/.config/eww/scripts/brightness.sh")
 (defpoll player :interval "1s" "./scripts/playerctl1.sh")
 (defpoll workspace :interval "0.25s" "~/.config/eww/scripts/hyprworkspaces.sh")
+(defvar splash "sh ~/.config/eww/scripts/splashtext.sh")
 
 
-
-
-
-
+;; Defwidgetsss
+(defwidget volume []
+    (eventbox :onhover "eww update volrev=true"
+  :onhoverlost "eww update volrev=false"
+  :class "volrev"
+  (box :orientation "v"
+       :space-evenly false
+      (revealer :reveal volrev
+                :transition "slideup"
+                :duration "100ms"
+                (scale
+                :flipped true
+                :orientation "v"
+                :class "volume"
+                :value vol
+                :min 0
+                :max 101
+                :round-digits: "1"
+                :onchange "pamixer --set-volume {}"
+              :vexpand false
+                    :hexpand false))
+                  (button :onclick "pavucontrol &" :class "volbut" "")))
+)
+(defwidget brightness []
+    (eventbox :onhover "eww update brightnessrev=true"
+  :onhoverlost "eww update brightnessrev=false"
+  :class "brightnessrev"
+  (box :orientation "v"
+       :space-evenly false
+      (revealer :reveal brightnessrev
+                :transition "slideup"
+                :duration "100ms"
+                (scale
+                :flipped true
+                :orientation "v"
+                :class "brightness"
+                :value vol
+                :min 0
+                :max 101
+                :round-digits: "1"
+                :onchange "brightnessctl set {}%"
+              :vexpand false
+                    :hexpand false))
+                  (label :text "󰌵" :class "brtbut")))
+)
 (defwindow bar
   :monitor 0
   :geometry (geometry :x "0.1%"
@@ -35,81 +77,45 @@
 
 
 (defvar volcal false)
+(defvar powerrev false)
 (defwidget bottombar []
   (box :space-evenly false
+    :class "bottombar"
     :orientation "v"
-    (box  :style "    background-color: rgb(21, 22, 24);
-    padding: 0.5rem; 
-    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
-    margin: 0.3rem 0.5rem 0.3rem 0.5rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
+    (box
+    :class "workspace"
     (label :text "${workspace}"))
-    (box :orientation "v" :halign "center"
-    :style "    background-color: rgb(21, 22, 24);
-    padding: 0.5rem;
-    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
-    margin: 0.3rem 0rem 0.3rem 0rem;
-    font-size: 1.5rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
-  :space-evenly false
-  :class "baricon1"
-  (revealer
-    :reveal {volrev}
-    :transition "slideup"
-    :duration "300ms"
-  (tooltip
-  (label :text "${vol}%")
-  (scale
-  :flipped true
-  :orientation "v"
-  :class "volume"
-  :value vol
-  :min 0
-  :max 101
-  :round-digits: "1"
-  :onchange "pamixer --set-volume {}"
-:vexpand false
-      :hexpand false)))
-  (eventbox
-      :onclick "eww update volrev=${volrev==true?false:true} brightnessrev=false"
-      :orientation "h"
-      :onrightclick "pavucontrol &"
-    (label :text "󰕾" :style "color: #89b482;" :xalign 0.365)))
+    (label :text "" :angle 90 :style "font-size: 2.5rem;")
+(volume)
+(brightness)
+  
 
-    (box :orientation "v" :halign "center"
-  :space-evenly false
-    :style "    background-color: rgb(21, 22, 24);
-    padding: 0.5rem; 
-    border-radius: 0.5rem 0.5rem 1rem 1rem;
-    margin: 0.3rem 0rem 0.3rem 0rem;
-    font-size: 1.5rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
-  (revealer
-    :reveal {brightnessrev}
-    :transition "slideup"
-    :duration "300ms"
-  (tooltip
-  (label :text "${brightness}%")
-  (scale
-  :flipped true
-  :orientation "v"
-  :class "brightness"
-  :value brightness
-  :min 0
-  :max 101
-  :round-digits: "1"
-  :onchange "brightnessctl set {}%"
-:vexpand false
-      :hexpand false)))
-
-  (eventbox
-      :onclick "eww update brightnessrev=${brightnessrev==true?false:true} volrev=false"
-      :orientation "h"
-    (label :text "󰌵" :style "color: #d8a657;" :xalign 0.5)))
+  
+    (eventbox :onhover "eww update powerrev=true"
+    :space-evenly false
+              :onhoverlost "eww update powerrev=false"
+              :orientation "v"
+            (box :class "power"
+            :space-evenly false
+              :orientation "v"
+                (revealer :transition "slideup"
+                :reveal powerrev
+                :orientation "v"
+                :duration "150ms"
+                :space-evenly false
+                  (box :orientation "v"
+                  (button :onclick "firefox &"
+                :class "pres" "")
+                  (button :onclick "firefox &"
+                :class "preb" "")
+                  (button :onclick "firefox &"
+                :class "psus" "󰒲")))
+                (button :onclick "firefox &" 
+              :class "poff" ""))))
   )
-)
+
+  
+
 (defwidget topbar []
   (box :space-evenly false :orientation "v"
   (box
@@ -121,12 +127,13 @@
     box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
   (eventbox 
     :onclick "~/.config/eww/scripts/main_toggle.sh; eww update splash=\"$(~/.config/eww/scripts/splashtext.sh)\""
-  (label :text "" :style "color: #ea6962; font-size: 1.5rem; padding: 0rem 0.5rem 0rem 0rem" :xalign 0)))
+  (label :text "":style "color: #ea6962; font-size: 1.5rem;")))
     (box :class "baricon" :orientation "v"
     (label :text "${h}")
     (label :text "${m}")))
   )
 (defwidget centrebar []
+  
   (box :halign "center" :valign "center" :vexpand true :hexpand false
   :class "playerctl1"
   :spacing 5
@@ -176,73 +183,15 @@
 (defwidget debug []
   (box :orientation "h"
   :space-evenly false
-(label :text "${mainrev}")
+(label :text "${powerrev}")
 (revealer 
   :reveal mainrev
     :transition "slideright"
     :duration "300ms"
   (label :text "${splash}")
   )
+  (button :onclick "firefox &"
+  "A")
 )
-)
-(defwindow main
-  :monitor 0
-  :geometry (geometry :x "0.2%"
-                      :y "0.7%"
-                      :width "10%"
-                      :height "12%"
-                      :anchor "top right")
-  :stacking "fg"
-  :namespace "UsermenuEWW"
-(box :space-evenly false
-  (revealer
-    :reveal mainrev
-    :transition "slideleft"
-    :duration "120ms"
-(profile)))
-)
-(defwidget profile []
-  (box :orientation "v"
-(user))
-
 )
 
-(defvar splash "$(scripts/splashtext.sh)")
-(defwidget user []
-  (box :orientation "h" :class "profclass"
-  :space-evenly false
-  (box :space-evenly false
-    :class "mainprofile"
-  (box :class "profile-pic"
-:hexpand false
-:vexpand false)
-  
-  (box :orientation "v"
-  :spacing 50
-  :space-evenly false
-  (box :orientation "v"
-  :class "profclass1"
-  :space-evenly false
-  :spacing 7
-  :vexpand false
-  :hexpand false
-  (box :class "splash1"
-  (label :text "${splash}"))
-  (box :class "user1" :vexpand false :hexpand false
-  (label :text "- ${username}" :halign "start"))
-(box :class "up1"
-  (label :text "Your pc's been on for ${uptime}" :halign "start"))
-)
-(box :class "power"
-  (box :class "poweroff"
-  (eventbox :onclick "systemctl poweroff"
-  (label :text "" :style " color: #ea6962")))
-
-
-)
-)
-))
-)
-(defwidget sys []
-  (box :orientation "v")
-)
