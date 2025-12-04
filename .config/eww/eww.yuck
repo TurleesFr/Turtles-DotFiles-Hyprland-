@@ -13,7 +13,7 @@
 (defvar splash "sh ~/.config/eww/scripts/splashtext.sh")
 
 
-;; Defwidgetsss
+; Defwidgetsss
 (defwidget volume []
     (eventbox :onhover "eww update volrev=true"
   :onhoverlost "eww update volrev=false"
@@ -36,6 +36,7 @@
                     :hexpand false))
                   (button :onclick "pavucontrol &" :class "volbut" "")))
 )
+; brightness slider
 (defwidget brightness []
     (eventbox :onhover "eww update brightnessrev=true"
   :onhoverlost "eww update brightnessrev=false"
@@ -58,6 +59,95 @@
                     :hexpand false))
                   (label :text "󰌵" :class "brtbut")))
 )
+; Donut stats
+(defwidget donuts []
+(box :orientation "v"
+:space-evenly true
+:spacing 3
+:class "donuts"
+(box :orientation "v"
+:space-evenly false
+  (overlay
+    :space-evenly false
+    (label :text "" :class "cpuico" :style "color: #ea6962;")
+    (circular-progress
+    :value 100
+    :class "bg"
+    :start-at 0
+    :thickness 5
+    :clockwise true)
+    (circular-progress
+    :value {round(EWW_CPU.avg, 0)}
+    :start-at 0
+    :class "cpu"
+    :thickness 5
+    :clockwise true)
+  )
+  (label :text "${round(EWW_CPU.avg, 0)}%" :style "color: #ea6962; font-weight: bold;"))
+(box :orientation "v"
+:space-evenly false
+  (overlay
+    :space-evenly false
+    (label :text "" :class "cpuico" :style "color: #a9b665;")
+    (circular-progress
+    :value 100
+    :class "bg"
+    :start-at 0
+    :thickness 5
+    :clockwise true)
+    (circular-progress
+    :value {round(EWW_RAM.used_mem_perc, 0)}
+    :start-at 0
+    :class "mem"
+    :thickness 5
+    :clockwise true)
+  )
+  (label :text "${round(EWW_RAM.used_mem_perc, 0)}%" :style "color: #a9b665; font-weight: bold;"))
+(box :orientation "v"
+:space-evenly false
+  (overlay
+    :space-evenly false
+    (label :text "󱊞" :class "cpuico" :style "color: #7daea3;")
+    (circular-progress
+    :value 100
+    :class "bg"
+    :start-at 0
+    :thickness 5
+    :clockwise true)
+    (circular-progress
+    :value {EWW_DISK["/home"].used_perc}
+    :start-at 0
+    :class "dsk"
+    :thickness 5
+    :clockwise true)
+  )
+  (label :text "${round(EWW_DISK["/home"].used_perc, 0)}%" :style "color: #7daea3; font-weight: bold;"))
+
+)
+)
+(defvar appmenu false)
+; Files n shtuff
+(defwidget centre []
+    (eventbox :class "centre"
+              :yalign 0.5
+              :orientation "v"
+              :onhover "eww update appmenu=true"
+            :onhoverlost "eww update appmenu=false"
+          (box :orientation "v"
+          :space-evenly false
+        (revealer :transition "slidedown"
+                  :reveal appmenu
+                  :duration "100ms"
+                  (box :orientation "v"
+                (button :onclick "thunar & eww update appmenu=false" :class "file" "")
+                (button :onclick "sh -c 'cd ~ && kitty &' && eww update appmenu=false" :class "kitty" "")))
+                                (label :text "󰀻" :class "appmenu")
+        (revealer :transition "slideup"
+                  :reveal appmenu 
+                  :duration "100ms"
+                  (box :orientation "v"
+                (button :onclick "firefox & eww update appmenu=false" :class "firefox" "󰈹")
+                (button :onclick "flatpak run dev.vencord.Vesktop & eww update appmenu=false" :class "discord" ""))))))
 (defwindow bar
   :monitor 0
   :geometry (geometry :x "0.1%"
@@ -86,8 +176,8 @@
     :class "workspace"
     (label :text "${workspace}"))
     (label :text "" :angle 90 :style "font-size: 2.5rem;")
-(volume)
-(brightness)
+  (volume)
+  (brightness)
   
 
   
@@ -104,63 +194,38 @@
                 :duration "150ms"
                 :space-evenly false
                   (box :orientation "v"
-                  (button :onclick "firefox &"
+                  (button :onclick "systemctl restart"
                 :class "pres" "")
-                  (button :onclick "firefox &"
+                  (button :onclick "systemctl reboot"
                 :class "preb" "")
-                  (button :onclick "firefox &"
+                  (button :onclick "systemctl suspend"
                 :class "psus" "󰒲")))
-                (button :onclick "firefox &" 
+                (button :onclick "systemctl poweroff" 
               :class "poff" ""))))
   )
 
   
 
 (defwidget topbar []
-  (box :space-evenly false :orientation "v"
-  (box
-  :style "background-color: rgb(21, 22, 24);
-    padding: 0.5rem;
-    border-radius: 1rem 1rem 0.5rem 0.5rem;
-    margin: 0.5rem 0.5rem 0.3rem 0.5rem;
-    font-size: 1.5rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
-  (eventbox 
-    :onclick "~/.config/eww/scripts/main_toggle.sh; eww update splash=\"$(~/.config/eww/scripts/splashtext.sh)\""
-  (label :text "":style "color: #ea6962; font-size: 1.5rem;")))
+  (box :space-evenly false :orientation "v" :spacing 10
+    (donuts)
     (box :class "baricon" :orientation "v"
     (label :text "${h}")
     (label :text "${m}")))
   )
-(defwidget centrebar []
-  
-  (box :halign "center" :valign "center" :vexpand true :hexpand false
-  :class "playerctl1"
-  :spacing 5
-  :space-evenly false
-  :orientation "v"
-  (box
-  (eventbox :onclick "playerctl next &"
-  (label :text "󰒭" :halign "start" :angle 90)))
-  (eventbox
-    :onclick "playerctl play-pause"
-      (label :text "${player}" :xalign 0.5 :angle 90 :truncate true :limit-width 49))
-      (box
-    (eventbox :onclick "playerctl previous &"
-  (label :text "󰒭" :xalign 0.6 :angle 270))))
-)
 
+(defvar barbuttons false)
 (defwidget bar []
+
   (box :orientation "v"
   :space-evenly true
   :vexpand false
   :hexpand false
   :class "bar1"
   (topbar)
-    (box :valign "center"
-  (centrebar))
-    (box :valign "end"
-    :style "margin: 0rem 0rem 0.5rem 0rem;"
+  (box :valign "center"
+  (centre))
+  (box :valign "end"
   (bottombar))
 )
 )
@@ -183,6 +248,7 @@
 (defwidget debug []
   (box :orientation "h"
   :space-evenly false
+  (centre)
 (label :text "${powerrev}")
 (revealer 
   :reveal mainrev

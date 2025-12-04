@@ -1,197 +1,177 @@
-;;made by https://github.com/TurleesFr
-;;updated by https://github.com/TurleesFr
-;; thank you https://github.com/Mon4sm for helping me out a bit
+$bg-dark:    #2d3035;
+$bg:         #32353f;
+$bg-light:   #3e4251;
+$fg:         #ebdbb2;
+$fg-alt:     #d5c4a1;
 
-(defpoll uptime :interval "60s" "uptime -p")
-(defpoll username :interval "60s" "whoami")
-(deflisten vol "sh ~/.config/eww/scripts/VolScale.sh")
-(deflisten media "sh ~/.config/eww/scripts/media-listen.sh")
-(defpoll clock :interval "5s" "date +'%H %M %p'")
-(deflisten brightness "sh ~/.config/eww/scripts/brightness.sh")
-(defpoll player :interval "1s" "./scripts/playerctl1.sh")
-(defpoll workspace :interval "0.25s" "~/.config/eww/scripts/hyprworkspaces.sh")
-(defvar splash "sh ~/.config/eww/scripts/splashtext.sh")
+$red:        #ea6962;
+$hover-red:  #82332f;
+$green:      #a9b665;
+$yellow:     #d8a657;
+$blue:       #7daea3;
+$purple:     #d3869b;
+$aqua:       #89b482;
+$orange:     #e78a4e;
+$gray:       #928374;
 
+$accent:     $blue;
+$outline:    $gray;
+.main {
+    background-color: rgba(0,0,0,0)
+}
+.powerbox {
+    margin: 0rem 0.5rem;
+}
 
-;; Defwidgetsss
-(defwidget volume []
-    (eventbox :onhover "eww update volrev=true"
-  :onhoverlost "eww update volrev=false"
-  :class "volrev"
-  (box :orientation "v"
-       :space-evenly false
-      (revealer :reveal volrev
-                :transition "slideup"
-                :duration "100ms"
-                (scale
-                :flipped true
-                :orientation "v"
-                :class "volume"
-                :value vol
-                :min 0
-                :max 101
-                :round-digits: "1"
-                :onchange "pamixer --set-volume {}"
-              :vexpand false
-                    :hexpand false))
-                  (button :onclick "pavucontrol &" :class "volbut" "")))
-)
-(defwidget brightness []
-    (eventbox :onhover "eww update brightnessrev=true"
-  :onhoverlost "eww update brightnessrev=false"
-  :class "brightnessrev"
-  (box :orientation "v"
-       :space-evenly false
-      (revealer :reveal brightnessrev
-                :transition "slideup"
-                :duration "100ms"
-                (scale
-                :flipped true
-                :orientation "v"
-                :class "brightness"
-                :value vol
-                :min 0
-                :max 101
-                :round-digits: "1"
-                :onchange "brightnessctl set {}%"
-              :vexpand false
-                    :hexpand false))
-                  (label :text "󰌵" :class "brtbut")))
-)
-(defwindow bar
-  :monitor 0
-  :geometry (geometry :x "0.1%"
-                      :y "0%"
-                      :width "1.8%"
-                      :height "99%"
-                      :anchor "right center")
-  :stacking "fg"
-  :exclusive true
-  :focusable "ondemand"
-  :namespace "EWW-Bar"
-(box :class "windbar"
-:vexpand false
-:hexpand false
-(bar)
-))
+.splash1 {
+    border-bottom: 0.1rem solid;
+}
+.profile-pic {  
+    box-shadow: 0 2px 3px 2px rgba(6,6,11,0.9);
+  background-image: url('./Profile.jpg');
+  background-size: 100%;
+  background-repeat:no-repeat;
+  min-height: 90px;
+  min-width: 90px;
+  padding: 3rem;
+  margin: 1rem;
+  border-radius: 100%;
+}
+.profclass {
+    background-color: rgba(255,255,255,0);
+}
+.profclass1 {
+   background-color: rgb(28, 29, 31);
+   padding: 1rem;
+   border-radius: 1rem;
+   box-shadow: 0 2px 3px 2px rgba(6,6,11,0.3);
+}
+.mainprofile {
+    background-color: rgb(16, 17, 19);
+    padding: 0.6rem;
+    border-radius: 1rem;
+    font-weight: bold;
+}
+
+.bar { 
+    background-color: rgba(21, 22, 24, 0.85);
+    border-radius: 1.7rem;
+}
 
 
-(defvar volcal false)
-(defvar powerrev false)
-(defwidget bottombar []
-  (box :space-evenly false
-    :class "bottombar"
-    :orientation "v"
-    (box
-    :class "workspace"
-    (label :text "${workspace}"))
-    (label :text "" :angle 90 :style "font-size: 2.5rem;")
-(volume)
-(brightness)
-  
 
-  
-    (eventbox :onhover "eww update powerrev=true"
-    :space-evenly false
-              :onhoverlost "eww update powerrev=false"
-              :orientation "v"
-            (box :class "power"
-            :space-evenly false
-              :orientation "v"
-                (revealer :transition "slideup"
-                :reveal powerrev
-                :orientation "v"
-                :duration "150ms"
-                :space-evenly false
-                  (box :orientation "v"
-                  (button :onclick "systemctl restart"
-                :class "pres" "")
-                  (button :onclick "systemctl reboot"
-                :class "preb" "")
-                  (button :onclick "systemctl suspend"
-                :class "psus" "󰒲")))
-                (button :onclick "systemctl poweroff" 
-              :class "poff" ""))))
-  )
+.playerctl1 {
+    padding: 1rem;
+    background-color: rgba(21, 22, 24, 0.85);
+    padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #7daea3;
+    border-radius: 1rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);
+}
 
-  
-
-(defwidget topbar []
-  (box :space-evenly false :orientation "v"
-  (box
-  :style "background-color: rgb(21, 22, 24);
-    padding: 0.5rem;
-    border-radius: 1rem 1rem 0.5rem 0.5rem;
-    margin: 0.5rem 0.5rem 0.3rem 0.5rem;
+.brightnessrev, .volrev, .workspace, .donuts, .baricon, .centre {
+    background-color: rgba(21, 22, 24, 0.5);
+    font-weight: bold;
+}
+// Workssssssspace buttttttton
+.workspace {
     font-size: 1.5rem;
-    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15,15,6,0.2);"
-  (eventbox 
-    :onclick "~/.config/eww/scripts/main_toggle.sh; eww update splash=\"$(~/.config/eww/scripts/splashtext.sh)\""
-  (label :text "":style "color: #ea6962; font-size: 1.5rem;")))
-    (box :class "baricon" :orientation "v"
-    (label :text "${h}")
-    (label :text "${m}")))
-  )
-(defwidget centrebar []
-  
-  (box :halign "center" :valign "center" :vexpand true :hexpand false
-  :class "playerctl1"
-  :spacing 5
-  :space-evenly false
-  :orientation "v"
-  (box
-  (eventbox :onclick "playerctl next &"
-  (label :text "󰒭" :halign "start" :angle 90)))
-  (eventbox
-    :onclick "playerctl play-pause"
-      (label :text "${player}" :xalign 0.5 :angle 90 :truncate true :limit-width 49))
-      (box
-    (eventbox :onclick "playerctl previous &"
-  (label :text "󰒭" :xalign 0.6 :angle 270))))
-)
+    font-weight: bold;
+    padding: 1rem 0rem;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+}
+//Donuts
+.donuts {
+    border-radius: 2rem 2rem 0 0;
+    padding-top: 1rem;
+}
+.bg {
+    color: rgb(30, 30, 32);
+}
+.cpu {
+    color: #ea6962;
+    font-weight: bold;
+}
+.mem {
+    color: #a9b665;
+    font-weight: bold;
+}
+.dsk {
+    color: #7daea3;
+    font-weight: bold;
+}
+.cpuico, .memico {
+   padding: 0.8rem;
+}
+// Volume 
+.volume slider,.volume trough,.volume trough highlight {
+    all: unset;
+}
+.volume slider {
+    opacity: 1;
+}
+.volume trough {
+    margin-top: 1rem;
+    border-radius: 1.25rem;
+    min-height: 12.5rem;
+    min-width: 1.25rem;
+    background-color: #40543d;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15, 15, 6, 0.2);
+}
+.volume trough highlight {
+        border-radius: 1.25rem;
+    background-color: #89b482;
+}
+// Brightness
+.brightness slider,.brightness trough,.brightness trough highlight {
+    all: unset;
+}
+.brightness slider {
+    opacity: 1;
+}
+.brightness trough {
+    border-radius: 1.25rem;
+    min-height: 12.5rem;
+    min-width: 1.25rem;
+    background-color: rgba(49, 45, 37, 0.8);
+    box-shadow: 0.0625rem 0.125rem 0.1875rem 0.125rem rgba(15, 15, 6, 0.2);
+}
+.brightness trough highlight {
+        border-radius: 1.25rem;
+    background-color: #d8a657;
+}
 
-(defwidget bar []
-  (box :orientation "v"
-  :space-evenly true
-  :vexpand false
-  :hexpand false
-  :class "bar1"
-  (topbar)
-    (box :valign "center"
-  (centrebar))
-    (box :valign "end"
-    :style "margin: 0rem 0rem 0.5rem 0rem;"
-  (bottombar))
-)
-)
-(defpoll h :interval "5s" "date +'%H'")
-(defpoll m :interval "5s" "date +'%M'")
-(defvar volrev false)
-(defvar brightnessrev false)
-(defvar mainrev false)
-
-(defwindow debug
-:monitor 0
-  :geometry (geometry :x "0%"
-                      :y "0%"
-                      :width "10%"
-                      :height "8%"
-                      :anchor "center")
-  :stacking "fg"
-(debug)
-)
-(defwidget debug []
-  (box :orientation "h"
-  :space-evenly false
-(label :text "${powerrev}")
-(revealer 
-  :reveal mainrev
-    :transition "slideright"
-    :duration "300ms"
-  (label :text "${splash}")
-  )
-  (button :onclick "firefox &"
-  "A")
-)
-)
-
+// buttons lwk
+button.pres,button.preb,button.psus,button.volbut,.brtbut, .file, .firefox, .appmenu, .kitty, .discord{
+    padding: 1rem;
+    font-size: 1.5rem;
+    box-shadow: none;
+    background: none;
+}
+button.discord {
+    color: #6f60c5;
+}
+button.volbut{
+    color: #89b482;
+}
+button.pres {
+    color: #7daea3;
+}
+button.preb, button.file {
+    color: #89b482;
+}
+button.psus, .brtbut, button.firefox  {
+    color: #d8a657;
+}
+button.kitty {
+    color: #ffffff;
+}
+button.poff{
+    box-shadow: none;
+    padding-bottom: 1rem;
+    background: none;
+    color: #ea6962;
+    font-size: 1.5rem;
+}
